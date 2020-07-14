@@ -1,0 +1,8 @@
+# Distribution files
+dist/*
+build/*
+*.egg*
+**/__pycache__/**
+
+# Individual files
+condalist.txt
