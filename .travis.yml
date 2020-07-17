@@ -34,7 +34,7 @@ install:
   - conda install -c conda-forge pandas
   - conda install rpy2
   - conda install r-essentials r-base
-  - conda install -U pytest # Use this for testing
+  - conda install pytest # Use this for testing
 
 script:
     # Dont be ambiguous about where your test files are at
