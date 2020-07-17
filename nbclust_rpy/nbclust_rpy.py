@@ -4,7 +4,6 @@ Created on Mon Aug  5 21:21:52 2019
 
 @author: z003vrzk
 """
-
 """The NbClust package must be installed in the R working directory
 If it is not then this module wont work
 This checks to see if NbClust is installed in this environment
@@ -58,7 +57,7 @@ import numpy as np
 module_name = 'NbClust'
 if not rpy2.robjects.packages.isinstalled(module_name):
     raise ImportError('{} is not installed'.format(module_name))
-nbclust = importr('NbClust') #Import the NbClust package
+nbclust = importr('NbClust')  #Import the NbClust package
 numpy2ri.activate()
 NbClustResults = namedtuple('NbClustResults', ['index_df', 'best_nc_df'])
 
@@ -86,10 +85,9 @@ def r_matrix_to_df(r_matrix):
     values = np.array(r_matrix)
     row_names = list(r_matrix.rownames)
     col_names = list(r_matrix.colnames)
-    df = pd.DataFrame(data=values,
-                      index=row_names,
-                      columns=col_names)
+    df = pd.DataFrame(data=values, index=row_names, columns=col_names)
     return df
+
 
 def r_listvector_to_df(r_list):
     """Method for converting the NbClust ListVector to a pandas dataframe.
@@ -127,9 +125,7 @@ def r_listvector_to_df(r_list):
     values = np.array(r_list.__getitem__(0))
     row_names = list(r_list.names)
     col_names = list(r_list.colnames)
-    df = pd.DataFrame(data=values,
-                      index=row_names,
-                      columns=col_names)
+    df = pd.DataFrame(data=values, index=row_names, columns=col_names)
     return df
 
 
@@ -177,9 +173,7 @@ def r_floatvector_to_df(r_vector, col_names=None, row_names=None):
     if col_names is None:
         col_names = list(r_vector.colnames)
 
-    df = pd.DataFrame(data=values,
-                      index=row_names,
-                      columns=col_names)
+    df = pd.DataFrame(data=values, index=row_names, columns=col_names)
     return df
 
 
@@ -210,13 +204,6 @@ def nbclust_calc(data,
     best_nc_df : (pd.DataFrame)  The best number of clusters for each indicy in
     index_df
     see the NbClust documentation for more information"""
-
-    if index == 'jv_custom':
-        index = ['kl', 'ch', 'hartigan', 'ccc', 'Scott', 'Marriot', 'TrCovW', 'TraceW',
-           'Friedman', 'Rubin', 'Cindex', 'DB', 'Silhouette', 'Duda', 'PseudoT2',
-           'Beale', 'Ratkowsky', 'Ball', 'PtBiserial', 'Gap', 'Frey', 'McClain',
-           'Gamma', 'Gplus', 'Tau', 'Dunn', 'SDindex', 'SDbw']
-
     """Result is a ListVector (robjects.ListVector)
     It has named objects All.index, All.CriticalValues, Best.nc Best.partition
     if multiple index arguments are passed
@@ -228,25 +215,23 @@ def nbclust_calc(data,
                              max_nc=max_nc,
                              method=clusterer,
                              index=index)
-
     """The first item in in result is a rpy2.robjects.vectors.FloatVector if
     only one index was passed
     Named elements include ['All.index', 'Best.nc', 'Best.partition']"""
     if isinstance(result.__getitem__(0), rpy2.robjects.vectors.FloatVector):
         # All.index
         row_names = list(result.__getitem__(0).names)
-        col_names = [index] # index, cant access from result.__getitem__(0)
+        col_names = [index]  # index, cant access from result.__getitem__(0)
         index_df = r_floatvector_to_df(result.__getitem__(0),
                                        col_names=col_names,
                                        row_names=row_names)
 
         # Best.nc
         row_names = result.__getitem__(1).names
-        col_names = [index] # index, cant access from result.__getitem__(0)
+        col_names = [index]  # index, cant access from result.__getitem__(0)
         best_nc_df = r_floatvector_to_df(result.__getitem__(1),
                                          col_names=col_names,
                                          row_names=row_names)
-
     """The first item in in result is a rpy2.robjects.vectors.Matrix if
     multiple index were passed
     Named elements include ['All.index', 'Best.nc', 'Best.partition']"""

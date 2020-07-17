@@ -1,7 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sat Jul 11 20:34:03 2020
+## RPy2 interface to R Package NbClust
 
-@author: z003vrzk
-"""
 
