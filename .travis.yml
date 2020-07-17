@@ -9,8 +9,6 @@ python:
 before_install:
     - python --version
     - pip install -U pip
-    - pip install -U pytest # Use this for testing
-    - pip install codecov # Use this for
 
 install:
   - sudo apt update
@@ -32,10 +30,11 @@ install:
   # Add all project dependencies
   - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION
   - conda activate test-environment
-  - conda install -c conda-forget numpy
+  - conda install -c conda-forge numpy
   - conda install -c conda-forge pandas
   - conda install rpy2
   - conda install r-essentials r-base
+  - conda install -U pytest # Use this for testing
 
 script:
     # Dont be ambiguous about where your test files are at
