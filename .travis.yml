@@ -30,7 +30,7 @@ install:
   - conda info -a
 
   # Add all project dependencies
-  - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION libblas libcblas libflang liblapack liblapacke libopenblas libsodium llvm-meta
+  - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION
   - conda activate test-environment
   - conda install -c conda-forget numpy
   - conda install -c conda-forge pandas
