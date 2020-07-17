@@ -36,6 +36,10 @@ install:
   - conda install r-essentials r-base
   - conda install pytest # Use this for testing
 
+  # Install R packages with conda
+  - sudo wget https://cran.r-project.org/src/contrib/NbClust_3.0.tar.gz
+  - R CMD INSTALL NbClust_3.0.tar.gz
+
 script:
     # Dont be ambiguous about where your test files are at
     - pytest ./nbclust_rpy/nbclust_rpy_test.py # Run tests

@@ -3,6 +3,8 @@ dist/*
 build/*
 *.egg*
 **/__pycache__/**
+.pytest_cache
+r-nbclust
 
 # Individual files
 condalist.txt
