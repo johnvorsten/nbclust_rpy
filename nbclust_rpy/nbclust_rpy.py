@@ -23,7 +23,7 @@ r # Enter R command prompt
 install.packages("NbClust","C:\\ProgramData\\Anaconda3\\envs\\<environment name>\\Lib\\R\\library")
 
 Check if the package is installed
-r
+> r
 > library() # Check if NbClust is listed, or
 > library("NbClust")
 
@@ -39,6 +39,10 @@ utils = rpackages.importr('utils')
 utils.chooseCRANmirror(ind=1) # select the first mirror in the list
 
 utils.install_packages(StrVector(['NbClust']))
+
+OR Alternatively install NbClust with conda
+> conda install -c conda-forge r-nbclust
+
 """
 
 # Python imports
@@ -54,10 +58,10 @@ import numpy as np
 # Local import
 
 # Global declarations
-module_name = 'NbClust'
-if not rpy2.robjects.packages.isinstalled(module_name):
-    raise ImportError('{} is not installed'.format(module_name))
-nbclust = importr('NbClust')  #Import the NbClust package
+_R_MODULE_NAME = 'NbClust'
+if not rpy2.robjects.packages.isinstalled(_R_MODULE_NAME):
+    raise ImportError('{} is not installed'.format(_R_MODULE_NAME))
+nbclust = importr(_R_MODULE_NAME)  #Import the NbClust package
 numpy2ri.activate()
 NbClustResults = namedtuple('NbClustResults', ['index_df', 'best_nc_df'])
 
@@ -119,6 +123,10 @@ def r_listvector_to_df(r_list):
         columns :
         index : """
 
+    # TODO - NbClust doesn't actually return a ListVector if only
+    # One clustering index is selected..
+    # See r_floatvector_to_df instead
+    # Not sure why I originally wrote this ?
     msg = 'r_list argument is not type rpy2.robjects.vectors.ListVector'
     assert isinstance(r_list, rpy2.robjects.vectors.ListVector), msg
 
@@ -204,6 +212,7 @@ def nbclust_calc(data,
     best_nc_df : (pd.DataFrame)  The best number of clusters for each indicy in
     index_df
     see the NbClust documentation for more information"""
+
     """Result is a ListVector (robjects.ListVector)
     It has named objects All.index, All.CriticalValues, Best.nc Best.partition
     if multiple index arguments are passed
